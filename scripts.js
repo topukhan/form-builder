@@ -1,9 +1,40 @@
+toastr.options = {
+    closeButton: true,
+    debug: false,
+    newestOnTop: false,
+    progressBar: true,
+    positionClass: "toast-top-right",
+    preventDuplicates: false,
+    onclick: null,
+    showDuration: "300",
+    hideDuration: "1000",
+    timeOut: "4000",
+    extendedTimeOut: "1000",
+    showEasing: "swing",
+    hideEasing: "linear",
+    showMethod: "fadeIn",
+    hideMethod: "fadeOut",
+};
+
+tippy("#field_name_info", {
+    content: `e.g.,<input name="username" />`,
+    theme: 'light',
+});
+
+tippy("#field_label_info", {
+    content: `e.g.,<label for="field_label" >Full Name</label>`,
+    theme: 'light',
+});
+
 let fields = [];
 
 // Initialize field type options toggle
 $("#field_type").on("change", function () {
     const type = $(this).val();
-    $("#options_container").toggleClass("d-none", !["checkbox", "radio", "select"].includes(type));
+    $("#options_container").toggleClass(
+        "d-none",
+        !["checkbox", "radio", "select"].includes(type)
+    );
 });
 
 // Add a new field
@@ -20,7 +51,7 @@ $("#add_field").on("click", function () {
         name: fieldName,
         label: fieldLabel,
         options: ["checkbox", "radio", "select"].includes(fieldType)
-            ? fieldOptions.split(",").map(option => option.trim())
+            ? fieldOptions.split(",").map((option) => option.trim())
             : [],
     };
 
@@ -28,42 +59,27 @@ $("#add_field").on("click", function () {
     resetInputs();
     updateUI();
 });
-toastr.options = {
-    "closeButton": true,
-    "debug": false,
-    "newestOnTop": false,
-    "progressBar": true,
-    "positionClass": "toast-top-right",
-    "preventDuplicates": false,
-    "onclick": null,
-    "showDuration": "300",
-    "hideDuration": "1000",
-    "timeOut": "4000",
-    "extendedTimeOut": "1000",
-    "showEasing": "swing",
-    "hideEasing": "linear",
-    "showMethod": "fadeIn",
-    "hideMethod": "fadeOut"
-  }
 
 // Validate field input
 function validateField(type, name, label, options) {
     if (!name || !label) {
-        toastr.error('Field Name and Label are required.')
+        toastr.error("Field Name and Label are required.");
         return false;
     }
-    if (fields.some(field => field.name === name)) {
-        toastr.error('Field Name must be unique.')
+    if (fields.some((field) => field.name === name)) {
+        toastr.error("Field Name must be unique.");
 
         return false;
     }
     if (["checkbox", "radio", "select"].includes(type) && !options) {
-        toastr.error('Options are required for checkbox, radio, and select fields.')
-        
+        toastr.error(
+            "Options are required for checkbox, radio, and select fields."
+        );
+
         return false;
     }
-    if (type === "button" && fields.some(field => field.type === "button")) {
-        toastr.error('Only one submit button is allowed.')
+    if (type === "button" && fields.some((field) => field.type === "button")) {
+        toastr.error("Only one submit button is allowed.");
         return false;
     }
     return true;
@@ -134,7 +150,9 @@ function renderMultipleChoiceField(field) {
     const options = field.options
         .map((option, optionIndex) => {
             // Combine field name, option text, and index for uniqueness
-            const optionId = `${field.name}_${option.replace(/\s+/g, '_').toLowerCase()}_${fieldIndex}_${optionIndex}`;
+            const optionId = `${field.name}_${option
+                .replace(/\s+/g, "_")
+                .toLowerCase()}_${fieldIndex}_${optionIndex}`;
             return `
         <div class="form-check form-check-inline">
             <input type="${field.type}" id="${optionId}" name="${field.name}" value="${option}" class="form-check-input">
@@ -151,13 +169,10 @@ function renderMultipleChoiceField(field) {
         </div>`;
 }
 
-
-
-
 // Render select fields
 function renderSelectField(field) {
     const options = field.options
-        .map(option => `<option value="${option}">${option}</option>`)
+        .map((option) => `<option value="${option}">${option}</option>`)
         .join("");
 
     return `
@@ -180,12 +195,14 @@ function updateFieldList() {
         </div>`);
     });
 
-    $(".remove-field").off("click").on("click", function () {
-        const index = $(this).data("index");
-        fields.splice(index, 1);
-        updateUI();
-        toastr.success('Field removed successfully.');
-    });
+    $(".remove-field")
+        .off("click")
+        .on("click", function () {
+            const index = $(this).data("index");
+            fields.splice(index, 1);
+            updateUI();
+            toastr.success("Field removed successfully.");
+        });
 }
 
 // Copy generated HTML
