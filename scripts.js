@@ -28,23 +28,42 @@ $("#add_field").on("click", function () {
     resetInputs();
     updateUI();
 });
+toastr.options = {
+    "closeButton": true,
+    "debug": false,
+    "newestOnTop": false,
+    "progressBar": true,
+    "positionClass": "toast-top-right",
+    "preventDuplicates": false,
+    "onclick": null,
+    "showDuration": "300",
+    "hideDuration": "1000",
+    "timeOut": "4000",
+    "extendedTimeOut": "1000",
+    "showEasing": "swing",
+    "hideEasing": "linear",
+    "showMethod": "fadeIn",
+    "hideMethod": "fadeOut"
+  }
 
 // Validate field input
 function validateField(type, name, label, options) {
     if (!name || !label) {
-        alert("Field Name and Label are required.");
+        toastr.error('Field Name and Label are required.')
         return false;
     }
     if (fields.some(field => field.name === name)) {
-        alert("Field Name must be unique.");
+        toastr.error('Field Name must be unique.')
+
         return false;
     }
     if (["checkbox", "radio", "select"].includes(type) && !options) {
-        alert("Options are required for checkbox, radio, and select fields.");
+        toastr.error('Options are required for checkbox, radio, and select fields.')
+        
         return false;
     }
     if (type === "button" && fields.some(field => field.type === "button")) {
-        alert("Only one submit button is allowed.");
+        toastr.error('Only one submit button is allowed.')
         return false;
     }
     return true;
@@ -167,6 +186,7 @@ function updateFieldList() {
         const index = $(this).data("index");
         fields.splice(index, 1);
         updateUI();
+        toastr.success('Field removed successfully.');
     });
 }
 
