@@ -71,8 +71,7 @@ function validateField(type, name, label, options) {
 
 // Reset input fields
 function resetInputs() {
-    $("#field_name, #field_label, #field_options").val("");
-    $("#options_container").addClass("d-none");
+    $("#field_name, #field_label, #field_options, #options_container").val("");
 }
 
 // Update UI: Preview, field list, and generated HTML
@@ -129,7 +128,6 @@ function renderField(field) {
 let fieldCounter = 0;
 
 function renderMultipleChoiceField(field) {
-    // Increment the counter for each field
     const fieldIndex = fieldCounter++;
 
     // Generate HTML for options
@@ -148,8 +146,8 @@ function renderMultipleChoiceField(field) {
     // Wrap options in a container with a label
     return `
         <div class="mb-3">
-            <label class="form-label">${field.label}</label>
-            <div>${options}</div>
+            <label class="form-label">${field.label}</label><br>
+            ${options}
         </div>`;
 }
 
