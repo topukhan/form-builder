@@ -8,18 +8,39 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <link rel="stylesheet" href="style.css">
+    <style>
+        .shadow-glow-blue {
+            box-shadow: 0 .5rem 1.5rem rgba(117, 166, 222, 0.5); /* Blue glow */
+        }
     
+        .shadow-glow-red {
+            box-shadow: 0 .5rem 1.5rem rgba(238, 94, 94, 0.5); /* Red glow */
+        }
+    
+        .shadow-glow-green {
+            box-shadow: 0 .5rem 1.5rem rgba(65, 195, 100, 0.175); /* Green glow */
+            
+        }
+        @media (max-width: 768px) { /* Adjust width breakpoint if needed */
+    .table-responsive-md {
+        overflow-x: auto; /* Ensures horizontal scroll on overflow */
+        white-space: nowrap; /* Prevents table contents from wrapping */
+    }
+}
+
+    </style>
 </head>
 <body>
     <h2 class="text-center py-3 text-white animated-gradient" style="font-family: monospace;">
         Form Builder (Bootstrap)
         <a href="./index.html" class="fs-5 btn btn-outline-info">Switch Layout</a>
     </h2>
-    <div class="container my-4">
+    <div class="container-fluid my-4">
         <div class="row">
             <!-- Left Section -->
-            <div class="col-md-4 mt-2">
-                <div class="card p-3">
+            <div class="col-md-2 offset-md-1 mt-2">
+                <!-- can i add glow effect in bootstrap for shadow with different color -->
+                <div class="card border-0 p-3 shadow-glow-green">
                     <h5 class="mb-3">Field Selection</h5>
                     <form id="fieldSelectionForm">
                         <div class="form-check">
@@ -72,26 +93,29 @@
     
             <!-- Right Section -->
             <div class="col-md-8 mt-2">
-                <div class="card p-3">
+                <div class="card border-0 p-3 shadow-glow-blue">
                     <h5 class="mb-3">Field Options</h5>
-                    <table id="fieldOptionsTable" class="table">
-                        <thead>
-                            <tr>
-                                <th>Select Field Type</th>
-                                <th>Enter Field Name</th>
-                                <th>Enter Field Label</th>
-                                <th>Enter Placeholder/Options</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody></tbody>
-                    </table>
-                    <div class="btn-section">
-                        <button id="showPreview" class="btn btn-primary">Show Preview</button>
-                        <button id="addField" class="btn btn-secondary">Add Field</button>
+                    <div class="table-responsive-md">
+                        <table id="fieldOptionsTable" class="table">
+                            <thead>
+                                <tr>
+                                    <th>Select Field Type</th>
+                                    <th>Enter Field Name</th>
+                                    <th>Enter Field Label</th>
+                                    <th>Enter Placeholder/Options</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                    <div class="btn-section mt-2">
+                        <button id="showPreview" class="btn btn-success">Show Preview</button>
+                        <button id="addField" class="btn btn-dark">Add Field</button>
                     </div>
                 </div>
             </div>
+            
         </div>
     </div>
     

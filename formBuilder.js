@@ -50,7 +50,7 @@ $(document).ready(function () {
                     <td><input type="text" class="form-control field-name" placeholder="Field Name"></td>
                     <td><input type="text" class="form-control field-label" placeholder="Field Label"></td>
                     <td><input type="text" class="form-control field-placeholder" placeholder="Placeholder/Options"></td>
-                    <td><button type="button" class="btn btn-danger btn-sm remove-field">Remove</button></td>
+                    <td><button type="button" class="btn btn-danger btn-sm remove-field" data-checkbox-id="${fieldId}">Remove</button></td>
                 </tr>
             `;
             $('#fieldOptionsTable tbody').append(newRow);
@@ -60,9 +60,46 @@ $(document).ready(function () {
         }
     });
 
+    // Add Field Button Functionality
+    $('#addField').on('click', function () {
+        const uniqueId = `custom-${Date.now()}`; // Generate a unique ID for the new field
+        const newRow = `
+            <tr id="row-${uniqueId}">
+                <td>
+                    <select class="form-control field-type">
+                        <option value="text" selected>Text</option>
+                        <option value="number">Number</option>
+                        <option value="email">Email</option>
+                        <option value="password">Password</option>
+                        <option value="textarea">Textarea</option>
+                        <option value="checkbox">Checkbox</option>
+                        <option value="radio">Radio</option>
+                        <option value="select">Select</option>
+                        <option value="date">Date</option>
+                        <option value="file">File</option>
+                        <option value="button">Button</option>
+                    </select>
+                </td>
+                <td><input type="text" class="form-control field-name" placeholder="Field Name"></td>
+                <td><input type="text" class="form-control field-label" placeholder="Field Label"></td>
+                <td><input type="text" class="form-control field-placeholder" placeholder="Placeholder/Options"></td>
+                <td><button type="button" class="btn btn-danger btn-sm remove-field" data-checkbox-id="${uniqueId}">Remove</button></td>
+            </tr>
+        `;
+
+        $('#fieldOptionsTable tbody').append(newRow);
+    });
+
+
     // Remove Field Button Functionality
     $('#fieldOptionsTable').on('click', '.remove-field', function () {
         const row = $(this).closest('tr');
+        const checkboxId = $(this).data('checkbox-id');
+
+        // Uncheck the corresponding checkbox
+        $(`#${checkboxId}`).prop('checked', false);
+
+        // Remove the row
         row.remove();
     });
 
@@ -142,7 +179,6 @@ $(document).ready(function () {
 
             // Inject the preview content into the modal
             $('#previewModal .modal-body').html(previewContent);
-            
 
             // Inject the generated HTML into the modal
             $('#generated_html').text(previewContent.trim());
@@ -155,7 +191,7 @@ $(document).ready(function () {
     // Copy HTML code to clipboard
     $(document).on('click', '#copyHtml', function () {
         const htmlCode = $('#generated_html').text();
-        
+
         navigator.clipboard.writeText(htmlCode).then(() => {
             toastr.success("HTML code copied to clipboard!");
             // Change the button text temporarily
@@ -165,33 +201,5 @@ $(document).ready(function () {
         }).catch((error) => {
             toastr.error("Failed to copy HTML: " + error);
         });
-    });
-
-    // Add Field Button
-    $('#addField').on('click', function () {
-        const newRow = `
-            <tr>
-                <td>
-                    <select class="form-control field-type">
-                        <option value="text">Text</option>
-                        <option value="number">Number</option>
-                        <option value="email">Email</option>
-                        <option value="password">Password</option>
-                        <option value="textarea">Textarea</option>
-                        <option value="checkbox">Checkbox</option>
-                        <option value="radio">Radio</option>
-                        <option value="select">Select</option>
-                        <option value="date">Date</option>
-                        <option value="file">File</option>
-                        <option value="button">Button</option>
-                    </select>
-                </td>
-                <td><input type="text" class="form-control field-name" placeholder="Field Name"></td>
-                <td><input type="text" class="form-control field-label" placeholder="Field Label"></td>
-                <td><input type="text" class="form-control field-placeholder" placeholder="Placeholder/Options"></td>
-                <td><button type="button" class="btn btn-danger btn-sm remove-field">Remove</button></td>
-            </tr>
-        `;
-        $('#fieldOptionsTable tbody').append(newRow);
     });
 });
